@@ -18,9 +18,9 @@ public class Main extends ApplicationAdapter {
 	 * Initialization local non static variables
 	 */
 	public void create () {
-		// Init sprite renderer
+		// Initialization sprite renderer
 		batch = new SpriteBatch();
-		// Init sprite texture
+		// Initialization sprite texture
 		img = new Texture("badlogic.jpg");
 	}
 

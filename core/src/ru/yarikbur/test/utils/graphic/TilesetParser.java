@@ -1,4 +1,4 @@
-package ru.yarikbur.test.utils;
+package ru.yarikbur.test.utils.graphic;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

@@ -5,17 +5,17 @@ public class Floor extends ru.yarikbur.test.game.objects.Object {
 	public boolean isTrap;
 	
 	protected enum Texture_Properties {
-		BRICK("objects/floor/floor_brick_tileset.jpg", 1, 4),
-		WOOD("objects/floor/floor_wood_tileset.jpg", 0, 0);
+		BRICK("objects/floor/brick_tileset.jpg", 1, 4),
+		WOOD("objects/floor/wood_tileset.jpg", 0, 0);
 		
 		private final String path;
 		private final int row;
-		private final int collumn;
+		private final int column;
 		
-		private Texture_Properties(String path, int row, int collumn) {
+		private Texture_Properties(String path, int row, int column) {
 			this.path = path;
 			this.row = row;
-			this.collumn = collumn;
+			this.column = column;
 		}
 		
 		public String getPath() {
@@ -26,8 +26,8 @@ public class Floor extends ru.yarikbur.test.game.objects.Object {
 			return row;
 		}
 		
-		public int getCollumn() {
-			return collumn;
+		public int getColumn() {
+			return column;
 		}
 	}
 	
@@ -42,6 +42,7 @@ public class Floor extends ru.yarikbur.test.game.objects.Object {
 	protected void setTextureProperties(Texture_Properties properties) {
 		this.setTexture(properties.getPath());
 		this.setTextureRow(properties.getRow());
-		this.setTextureCollumn(properties.getCollumn());
+		this.setTextureCollumn(properties.getColumn());
+		this.setTextureRegion();
 	}
 }

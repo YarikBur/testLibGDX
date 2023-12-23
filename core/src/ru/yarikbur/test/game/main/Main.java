@@ -5,12 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import ru.yarikbur.test.game.objects.floor.BrickFloor;
+
 /*
  * Main class for start desktop application
  */
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	
+	BrickFloor[] floor = new BrickFloor[8];
 	
 	@Override
 	/*
@@ -22,6 +26,11 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		// Initialization sprite texture
 		img = new Texture("badlogic.jpg");
+		
+		for (int i = 0; i < floor.length; i++) {
+			floor[i] = new BrickFloor(false);
+			floor[i].setPosition(0, (i * 16));
+		}
 	}
 
 	@Override
@@ -35,7 +44,9 @@ public class Main extends ApplicationAdapter {
 		// Start renderer sprite
 		batch.begin();
 		// draw sprite
-		batch.draw(img, 0, 0);
+		for (int i = 0; i < floor.length; i++) {
+			floor[i].renderObject(batch);
+		}
 		// Finish renderer sprite
 		batch.end();
 	}

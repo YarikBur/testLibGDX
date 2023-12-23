@@ -8,28 +8,31 @@ public class BrickFloor extends Floor {
 	/**
 	 * Constructor a brick floor
 	 * @param isTrap - this tile it's a trap or not
+	 * @param isCanStepOn - player is can step on this floor
 	 * @param textureID - texture number a 1D array
 	 */
-	public BrickFloor(boolean isTrap, int textureID) {
+	public BrickFloor(boolean isTrap, boolean isCanStepOn, int textureID) {
 		this.defaultProperties();
 		
 		this.setTextureNumber(textureID);
 		this.setIsTrap(isTrap);
+		this.setIsCanStepOn(true);
 	}
 	
 	/**
 	 * Constructor a brick floor
 	 * @param isTrap - this tile it's a trap or not
+	 * @param isCanStepOn - player is can step on this floor
 	 */
-	public BrickFloor(boolean isTrap) {
+	public BrickFloor(boolean isTrap, boolean isCanStepOn) {
 		this.defaultProperties();
 		
 		this.setTextureNumber(Random.getRandomIntegerInRange(0, (TEXTURE_PROPERTIES.getColumn() - 1)));
 		this.setIsTrap(isTrap);
+		this.setIsCanStepOn(true);
 	}
 	
 	private void defaultProperties() {
 		this.setTextureProperties(TEXTURE_PROPERTIES);
-		this.setIsCanStepOn(true);
 	}
 }

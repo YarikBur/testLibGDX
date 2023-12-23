@@ -56,4 +56,8 @@ public class Object {
 	public void renderObject(SpriteBatch batch) {
 		batch.draw(textureRegion[texture_number], x, y);
 	}
+	
+	public void dispose() {
+		texture.dispose();
+	}
 }

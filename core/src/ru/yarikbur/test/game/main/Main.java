@@ -14,7 +14,7 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
-	BrickFloor[] floor = new BrickFloor[8];
+	BrickFloor[][] floor = new BrickFloor[80][45];
 	
 	@Override
 	/*
@@ -28,8 +28,11 @@ public class Main extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 		
 		for (int i = 0; i < floor.length; i++) {
-			floor[i] = new BrickFloor(false);
-			floor[i].setPosition(0, (i * 16));
+			for (int j = 0; j < floor[i].length; j++) {
+				floor[i][j] = new BrickFloor(false, true);
+				floor[i][j].setPosition((i * 16), (j * 16));
+				
+			}
 		}
 	}
 
@@ -44,8 +47,11 @@ public class Main extends ApplicationAdapter {
 		// Start renderer sprite
 		batch.begin();
 		// draw sprite
-		for (int i = 0; i < floor.length; i++) {
-			floor[i].renderObject(batch);
+		
+		for (BrickFloor[] floor2D : floor) {
+			for (BrickFloor floor : floor2D) {
+				floor.renderObject(batch);
+			}
 		}
 		// Finish renderer sprite
 		batch.end();
@@ -58,5 +64,10 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+		for (BrickFloor[] floor2D : floor) {
+			for (BrickFloor floor : floor2D) {
+				floor.dispose();
+			}
+		}
 	}
 }

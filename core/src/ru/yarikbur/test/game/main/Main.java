@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
 		
 		for (int i = 0; i < floor.length; i++) {
 			for (int j = 0; j < floor[i].length; j++) {
-				floor[i][j] = new BrickFloor(false, true);
+				floor[i][j] = new BrickFloor(false, true, 0);
 				floor[i][j].setPosition((i * 16), (j * 16));
 				
 			}
@@ -48,8 +48,8 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		// draw sprite
 		
-		for (BrickFloor[] floor2D : floor) {
-			for (BrickFloor floor : floor2D) {
+		for (BrickFloor[] floorRow : floor) {
+			for (BrickFloor floor : floorRow) {
 				floor.renderObject(batch);
 			}
 		}
@@ -64,8 +64,8 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
-		for (BrickFloor[] floor2D : floor) {
-			for (BrickFloor floor : floor2D) {
+		for (BrickFloor[] floorRow : floor) {
+			for (BrickFloor floor : floorRow) {
 				floor.dispose();
 			}
 		}

@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(GlobalSettings.FOREGROUND_FPS);
 		config.setTitle("Test GDX");
 		config.setWindowedMode(GlobalSettings.WINDOW_WIDTH, GlobalSettings.WINDOW_HEIGHT);
+		config.setResizable(GlobalSettings.RESIZEBLE);
 		new Lwjgl3Application(new Main(), config);
 	}
 }

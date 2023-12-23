@@ -2,6 +2,9 @@ package ru.yarikbur.test.game.objects.floor;
 
 import ru.yarikbur.test.utils.math.Random;
 
+/**
+ * Game object - floor made of bricks
+ */
 public class BrickFloor extends Floor {
 	private static final Texture_Properties TEXTURE_PROPERTIES = Texture_Properties.BRICK;
 	
@@ -32,6 +35,9 @@ public class BrickFloor extends Floor {
 		this.setIsCanStepOn(true);
 	}
 	
+	/**
+	 * Standard object settings regardless of the constructor
+	 */
 	private void defaultProperties() {
 		this.setTextureProperties(TEXTURE_PROPERTIES);
 	}

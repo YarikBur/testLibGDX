@@ -1,5 +1,8 @@
 package ru.yarikbur.test.settings;
 
+/**
+ * Default global settings
+ */
 public class GlobalSettings {
 	/* Window Settings */
 	public final static boolean RESIZEBLE = false;

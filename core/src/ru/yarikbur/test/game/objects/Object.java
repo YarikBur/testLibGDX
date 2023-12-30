@@ -18,6 +18,8 @@ public class Object {
 	protected int texture_row;
 	protected int x;
 	protected int y;
+	protected int width;
+	protected int height;
 	
 	/**
 	 * Sets the texture for a given object
@@ -82,6 +84,48 @@ public class Object {
 	public void setPosition(int x, int y) {
 		setX(x);
 		setY(y);
+	}
+	
+	/**
+	 * Returns the position of this object
+	 * @return Integer[x, y]
+	 */
+	public int[] getPosition() {
+		return new int[] {x, y};
+	}
+	
+	/**
+	 * Sets the width for a given object
+	 * @param width - Object width is pixels
+	 */
+	protected void setWidth(int width) {
+		this.width = width;
+	}
+	
+	/**
+	 * Sets the height for a given object
+	 * @param height - Object height is pixels
+	 */
+	protected void setHeight(int height) {
+		this.height = height;
+	}
+	
+	/**
+	 * Sets the size for a given object
+	 * @param width - Object width is pixels
+	 * @param height - Object height is pixels
+	 */
+	protected void setSize(int width, int height) {
+		this.setWidth(width);
+		this.setHeight(height);
+	}
+	
+	/**
+	 * Returns the size of this object
+	 * @return Integer[width, height]
+	 */
+	public int[] getSize() {
+		return new int[] {width, height};
 	}
 	
 	/**

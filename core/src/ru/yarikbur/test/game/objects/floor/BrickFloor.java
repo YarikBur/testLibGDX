@@ -1,7 +1,5 @@
 package ru.yarikbur.test.game.objects.floor;
 
-import ru.yarikbur.test.utils.math.Random;
-
 /**
  * Game object - floor made of bricks
  */
@@ -30,7 +28,7 @@ public class BrickFloor extends Floor {
 	public BrickFloor(boolean isTrap, boolean isCanStepOn) {
 		this.defaultProperties();
 		
-		this.setTextureNumber(Random.getRandomIntegerInRange(0, (TEXTURE_PROPERTIES.getColumn() - 1)));
+		this.setTextureNumber(0);
 		this.setIsTrap(isTrap);
 		this.setIsCanStepOn(true);
 	}
@@ -40,5 +38,6 @@ public class BrickFloor extends Floor {
 	 */
 	private void defaultProperties() {
 		this.setTextureProperties(TEXTURE_PROPERTIES);
+		this.setSize(16, 16);
 	}
 }

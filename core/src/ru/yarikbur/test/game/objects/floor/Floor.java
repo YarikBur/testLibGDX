@@ -8,10 +8,14 @@ public class Floor extends ru.yarikbur.test.game.objects.Object {
 	public boolean isTrap;
 	
 	/**
-	 * Properties of texture varieties for a given type of object. The settings store: The path to the textures, the number of lines in the texture tileset and the number of columns in the texture tileset
+	 * Properties of texture varieties for a given type of object.
+	 * The settings store: 
+	 * 	The path to the textures,
+	 * 	the number of lines in the texture tileset and
+	 * 	the number of columns in the texture tileset
 	 */
 	protected enum Texture_Properties {
-		BRICK("objects/floor/brick_tileset.jpg", 1, 4),
+		BRICK("objects/floor/brick_tileset.jpg", 1, 5),
 		WOOD("objects/floor/wood_tileset.jpg", 0, 0);
 		
 		private final String path;

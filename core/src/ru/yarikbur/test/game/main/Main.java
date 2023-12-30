@@ -1,20 +1,17 @@
 package ru.yarikbur.test.game.main;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.yarikbur.test.game.objects.floor.BrickFloor;
+import ru.yarikbur.test.game.main.render.Render;
 
 /*
  * Main class for start desktop application
  */
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	
-	BrickFloor[][] floor = new BrickFloor[80][45];
+	Render renderer;
 	
 	@Override
 	/*
@@ -24,16 +21,10 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		// Initialization sprite renderer
 		batch = new SpriteBatch();
-		// Initialization sprite texture
-		img = new Texture("badlogic.jpg");
 		
-		for (int i = 0; i < floor.length; i++) {
-			for (int j = 0; j < floor[i].length; j++) {
-				floor[i][j] = new BrickFloor(false, true, 0);
-				floor[i][j].setPosition((i * 16), (j * 16));
-				
-			}
-		}
+		renderer = new Render(this.batch);
+		renderer.initMap();
+		renderer.initObjectsOnMap();
 	}
 
 	@Override
@@ -48,11 +39,7 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		// draw sprite
 		
-		for (BrickFloor[] floorRow : floor) {
-			for (BrickFloor floor : floorRow) {
-				floor.renderObject(batch);
-			}
-		}
+		renderer.renderMap();
 		// Finish renderer sprite
 		batch.end();
 	}
@@ -62,12 +49,7 @@ public class Main extends ApplicationAdapter {
 	 * Method from dispose objects in this class
 	 */
 	public void dispose () {
+		renderer.dispose();
 		batch.dispose();
-		img.dispose();
-		for (BrickFloor[] floorRow : floor) {
-			for (BrickFloor floor : floorRow) {
-				floor.dispose();
-			}
-		}
 	}
 }

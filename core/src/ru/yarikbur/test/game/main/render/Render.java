@@ -16,8 +16,6 @@ public class Render {
 	
 	public Render(SpriteBatch spriteBatch) {
 		this.spriteBatch = spriteBatch;
-		
-		this.initMap();
 	}
 	
 	public void initMap() {

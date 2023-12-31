@@ -1,6 +1,8 @@
 package ru.yarikbur.test.game.main.render;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
 import ru.yarikbur.test.game.main.map.GeneratorFloor;
 import ru.yarikbur.test.game.objects.floor.Floor;
@@ -13,9 +15,11 @@ public class Render {
 	
 	private Floor[][] floor;
 	private SpriteBatch spriteBatch;
+	private World world;
 	
-	public Render(SpriteBatch spriteBatch) {
+	public Render(SpriteBatch spriteBatch, World world) {
 		this.spriteBatch = spriteBatch;
+		this.world = world;
 	}
 	
 	public void initMap() {
@@ -26,6 +30,13 @@ public class Render {
 		generatorFloor.placeObjects();
 		
 		floor = generatorFloor.getObjects();
+		
+		for (Floor[] floors : this.floor) {
+			for (Floor floor : floors) {
+				Body body = world.createBody(floor.getBodyDef());
+				body.createFixture(floor.getFixtureDef());
+			}
+		}
 	}
 	
 	public void renderMap() {

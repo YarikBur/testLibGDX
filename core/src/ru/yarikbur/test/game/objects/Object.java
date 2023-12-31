@@ -4,6 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 
 import ru.yarikbur.test.utils.graphic.TilesetParser;
 
@@ -11,6 +17,7 @@ import ru.yarikbur.test.utils.graphic.TilesetParser;
  * Basic parameters for all types of objects in the game
  */
 public class Object {
+	protected Body body;
 	protected Texture texture;
 	protected TextureRegion[] textureRegion;
 	protected int texture_number;
@@ -84,6 +91,8 @@ public class Object {
 	public void setPosition(int x, int y) {
 		setX(x);
 		setY(y);
+		
+		this.body.setPosition(getPosition());
 	}
 	
 	/**
@@ -145,9 +154,123 @@ public class Object {
 	}
 	
 	/**
-	 * Destroys texture
+	 * Destroys texture and fixture
 	 */
 	public void dispose() {
 		texture.dispose();
+		this.body.dispose();
+	}
+	
+	/**
+	 * Basic physics parameters for all types of objects in the game
+	 */
+	public class Body {
+		BodyDef bodyDef = new BodyDef();
+		FixtureDef fixtureDef = new FixtureDef();
+		
+		/**
+		 * Set the physical type of the current object
+		 * @param BodyType (StaticBody, KinematicBody or DynamicBody)
+		 */
+		public void setType(BodyType type) {
+			bodyDef.type = type;
+		}
+		
+		/**
+		 * Returns a circular object with the specified radius
+		 * @param radius float - pixels
+		 * @return Shape
+		 */
+		public CircleShape circleShape(float radius) {
+			CircleShape shape = new CircleShape();
+			shape.setRadius(radius);
+			
+			return shape;
+		}
+		
+		/**
+		 * Returns a rectangular object with the given sides
+		 * @param width float - pixels
+		 * @param height float - pixels
+		 * @return Shape
+		 */
+		public PolygonShape boxShape(float width, float height) {
+			PolygonShape shape = new PolygonShape();
+			shape.setAsBox(width / 2, height / 2);
+			
+			return shape;
+		}
+		
+		/**
+		 * Sets the specified shape to the current physical object
+		 * @param shape
+		 */
+		public void setFixture(Shape shape) {
+			fixtureDef.shape = shape;
+		}
+		
+		/**
+		 * Sets the specified parameters for the current physical object
+		 * @param shape
+		 * @param density
+		 * @param friction
+		 * @param restitution
+		 */
+		public void setFixture(Shape shape, float density, float friction, float restitution) {
+			fixtureDef.shape = shape;
+			fixtureDef.density = density;
+			fixtureDef.friction = friction;
+			fixtureDef.restitution = restitution;
+		}
+		
+		/**
+		 * Sets the position of a physical object in relation to its texture dimensions
+		 * @param position
+		 */
+		public void setPosition(int[] position) {
+			int x = position[0] + getSize()[0] / 2;
+			int y = position[1] + getSize()[1] / 2;
+			
+			bodyDef.position.set(x, y);
+		}
+		
+		/**
+		 * Returns FixtureDef of the current physics object
+		 * @return FixtureDef
+		 */
+		public FixtureDef getFixtureDef() {
+			return fixtureDef;
+		}
+		
+		/**
+		 * Returns the current physics object
+		 * @return BodyDef
+		 */
+		public BodyDef getBodyDef() {
+			return bodyDef;
+		}
+		
+		/**
+		 * Destroy the current physics object
+		 */
+		public void dispose() {
+			fixtureDef.shape.dispose();
+		}
+	}
+	
+	/**
+	 * Returns the current physics object
+	 * @return BodyDef
+	 */
+	public BodyDef getBodyDef() {
+		return this.body.getBodyDef();
+	}
+	
+	/**
+	 * Returns FixtureDef of the current physics object
+	 * @return FixtureDef
+	 */
+	public FixtureDef getFixtureDef() {
+		return this.body.getFixtureDef();
 	}
 }

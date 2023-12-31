@@ -1,5 +1,7 @@
 package ru.yarikbur.test.game.objects.floor;
 
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 /**
  * Game object - floor made of bricks
  */
@@ -39,5 +41,9 @@ public class BrickFloor extends Floor {
 	private void defaultProperties() {
 		this.setTextureProperties(TEXTURE_PROPERTIES);
 		this.setSize(16, 16);
+		
+		this.body = new Body();
+		this.body.setType(BodyType.StaticBody);
+		this.body.setFixture(this.body.boxShape(this.getSize()[0], this.getSize()[1]));
 	}
 }

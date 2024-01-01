@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
 		cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 		
 		engineWorld = new EngineWorld();
-		render = new Render(wrapper.batch, engineWorld.getWorld());
+		render = new Render(wrapper.batch, engineWorld.getWorld(), cam);
 		
 	}
 

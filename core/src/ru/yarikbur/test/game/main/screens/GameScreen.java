@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.yarikbur.test.game.main.MainGameWrapper;
 import ru.yarikbur.test.game.main.map.EngineWorld;
+import ru.yarikbur.test.game.main.map.Maps;
 import ru.yarikbur.test.game.main.render.Render;
+import ru.yarikbur.test.game.main.render.SwitchSeason;
 
 public class GameScreen implements Screen {
 	private static final float SPEED_CAM = 3f;
@@ -18,6 +20,8 @@ public class GameScreen implements Screen {
 	EngineWorld engineWorld;
 	OrthographicCamera cam;
 	Render render;
+	
+	private Maps currentMap;
 	
 	public GameScreen(MainGameWrapper wrapper) {
 		this.wrapper = wrapper;
@@ -29,11 +33,12 @@ public class GameScreen implements Screen {
 		engineWorld = new EngineWorld();
 		render = new Render(wrapper.batch, engineWorld.getWorld(), cam);
 		
+		currentMap = Maps.TestMap;
 	}
 
 	@Override
 	public void show() {
-		render.initMap();
+		render.initMap(currentMap, currentMap.getSeasons());
 		render.initObjectsOnMap();
 	}
 
@@ -55,17 +60,27 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			cam.translate(-SPEED_CAM, 0);
 		}
-		
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 			cam.translate(0, -SPEED_CAM);
 		}
-		
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			cam.translate(SPEED_CAM, 0);
 		}
-		
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			cam.translate(0, SPEED_CAM);
+		}
+		
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Winter);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Spring);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Summer);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
+			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Autumn);
 		}
 	}
 

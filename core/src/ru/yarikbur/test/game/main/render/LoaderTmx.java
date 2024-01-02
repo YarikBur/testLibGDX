@@ -9,10 +9,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.ImageResolver;
-import com.badlogic.gdx.maps.MapGroupLayer;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.ImageResolver.AssetManagerImageResolver;
 import com.badlogic.gdx.maps.ImageResolver.DirectImageResolver;
+import com.badlogic.gdx.maps.MapGroupLayer;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -163,6 +163,19 @@ public class LoaderTmx extends BaseTmxMapLoader<LoaderTmx.Parameters> {
 		return map;
 	}
 	
+	private String getSeasonSourse(String source) {
+		String out = source;
+		
+		for (Maps.Seasons s : Maps.Seasons.values()) {
+			if (source.indexOf(s.getName()) == 0) {
+				out = source.replaceAll(s.getName(), seasons.getName());
+				break;
+			}
+		}
+		
+		return out;
+	}
+	
 	protected void loadTileSet (Element element, FileHandle tmxFile, ImageResolver imageResolver) {
 		if (element.getName().equals("tileset")) {
 			int firstgid = element.getIntAttribute("firstgid", 1);
@@ -170,15 +183,7 @@ public class LoaderTmx extends BaseTmxMapLoader<LoaderTmx.Parameters> {
 			int imageWidth = 0;
 			int imageHeight = 0;
 			FileHandle image = null;
-
-			String source = element.getAttribute("source", null);
-			
-			for (Maps.Seasons s : Maps.Seasons.values()) {
-				if (source.indexOf(s.getName()) == 0) {
-					source = seasons.getPath();
-					break;
-				}
-			}
+			String source = getSeasonSourse(element.getAttribute("source", null));
 			
 			if (source != null) {
 				FileHandle tsx = getRelativeFileHandle(tmxFile, source);
@@ -263,14 +268,7 @@ public class LoaderTmx extends BaseTmxMapLoader<LoaderTmx.Parameters> {
 
 		// TileSet descriptors
 		for (Element tileset : root.getChildrenByName("tileset")) {
-			String source = tileset.getAttribute("source", null);
-			
-			for (Maps.Seasons s : Maps.Seasons.values()) {
-				if (source.indexOf(s.getName()) == 0) {
-					source = seasons.getPath();
-					break;
-				}
-			}
+			String source = getSeasonSourse(tileset.getAttribute("source", null));
 			
 			if (source != null) {
 				FileHandle tsxFile = getRelativeFileHandle(tmxFile, source);
@@ -318,7 +316,6 @@ public class LoaderTmx extends BaseTmxMapLoader<LoaderTmx.Parameters> {
 		return fileHandles;
 	}
 
-	
 	@Override
 	protected Array<AssetDescriptor> getDependencyAssetDescriptors (FileHandle tmxFile,
 			TextureLoader.TextureParameter textureParameter) {
@@ -340,9 +337,7 @@ public class LoaderTmx extends BaseTmxMapLoader<LoaderTmx.Parameters> {
 			MapProperties props = tileSet.getProperties();
 			if (image != null) {
 				// One image for the whole tileSet
-				System.out.println("Add static tiles: " + image.path());
 				TextureRegion texture = imageResolver.getImage(image.path());
-				
 
 				props.put("imagesource", imageSource);
 				props.put("imagewidth", imageWidth);

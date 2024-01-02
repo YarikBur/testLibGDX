@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.yarikbur.test.game.main.MainGameWrapper;
 import ru.yarikbur.test.game.main.map.EngineWorld;
 import ru.yarikbur.test.game.main.map.Maps;
-import ru.yarikbur.test.game.main.render.Render;
+import ru.yarikbur.test.game.main.render.RenderMap;
 import ru.yarikbur.test.game.main.render.SwitchSeason;
 
 public class GameScreen implements Screen {
@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
 	
 	EngineWorld engineWorld;
 	OrthographicCamera cam;
-	Render render;
+	RenderMap render;
 	
 	private Maps currentMap;
 	
@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
 		cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 		
 		engineWorld = new EngineWorld();
-		render = new Render(wrapper.batch, engineWorld.getWorld(), cam);
+		render = new RenderMap(wrapper.batch, engineWorld.getWorld(), cam);
 		
 		currentMap = Maps.TestMap;
 	}

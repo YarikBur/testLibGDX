@@ -105,6 +105,7 @@ gradle-app.setting
 .DS_Store
 Thumbs.db
 gpg
+*.sh
 
 ## iOS
 /ios/xcode/*.xcodeproj/*

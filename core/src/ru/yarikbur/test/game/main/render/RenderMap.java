@@ -7,9 +7,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ru.yarikbur.test.game.main.map.Maps;
-import ru.yarikbur.test.game.main.screens.LoaderTmx;
 
-public class Render {
+public class RenderMap {
 	@SuppressWarnings("unused")
 	private SpriteBatch spriteBatch;
 	@SuppressWarnings("unused")
@@ -19,7 +18,7 @@ public class Render {
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	
-	public Render(SpriteBatch spriteBatch, World world, OrthographicCamera cam) {
+	public RenderMap(SpriteBatch spriteBatch, World world, OrthographicCamera cam) {
 		this.spriteBatch = spriteBatch;
 		this.world = world;
 		this.cam = cam;

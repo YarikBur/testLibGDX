@@ -1,7 +1,7 @@
 package ru.yarikbur.test.game.main.map;
 
 public enum Maps {
-	TestMap("map/test_map.tmx", Seasons.Winter);
+	TestMap("map/test_map.tmx", Seasons.Summer);
 	
 	private String path;
 	private Seasons seasons;

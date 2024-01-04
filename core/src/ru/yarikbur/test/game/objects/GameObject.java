@@ -16,7 +16,9 @@ import ru.yarikbur.test.utils.graphic.TilesetParser;
 /**
  * Basic parameters for all types of objects in the game
  */
-public class Object {
+public class GameObject {
+	public static final int[] SIZE_16x16 = new int[] {16, 16};
+	
 	protected Body body;
 	protected Texture texture;
 	protected TextureRegion[] textureRegion;
@@ -127,6 +129,15 @@ public class Object {
 	protected void setSize(int width, int height) {
 		this.setWidth(width);
 		this.setHeight(height);
+	}
+	
+	/**
+	 * Sets the size for a given object
+	 * @param size - integer array[width, height]
+	 */
+	protected void setSize(int[] size) {
+		this.setWidth(size[0]);
+		this.setHeight(size[1]);
 	}
 	
 	/**

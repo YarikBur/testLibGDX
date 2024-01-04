@@ -1,9 +1,11 @@
 package ru.yarikbur.test.game.objects.floor;
 
+import ru.yarikbur.test.game.objects.GameObject;
+
 /**
  * Type of game object - floor
  */
-public class Floor extends ru.yarikbur.test.game.objects.Object {
+public class Floor extends GameObject {
 	public boolean isCanStepOn;
 	public boolean isTrap;
 	

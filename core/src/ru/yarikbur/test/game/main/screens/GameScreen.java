@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.yarikbur.test.game.main.MainGameWrapper;
@@ -82,6 +83,14 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
 			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Autumn);
 		}
+		
+		cam.position.x = MathUtils.clamp(cam.position.x, 
+				cam.viewportWidth / 2, 
+				cam.viewportWidth + cam.viewportWidth / 2);
+		
+		cam.position.y = MathUtils.clamp(cam.position.y, 
+				cam.viewportHeight / 2, 
+				cam.viewportHeight + cam.viewportHeight / 2);
 	}
 
 	@Override

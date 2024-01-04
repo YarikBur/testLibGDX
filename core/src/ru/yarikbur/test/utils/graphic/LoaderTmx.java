@@ -1,4 +1,4 @@
-package ru.yarikbur.test.game.main.render;
+package ru.yarikbur.test.utils.graphic;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;

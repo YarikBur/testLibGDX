@@ -30,7 +30,7 @@ public class BrickFloor extends Floor {
 	public BrickFloor(boolean isTrap, boolean isCanStepOn) {
 		this.defaultProperties();
 		
-		this.setTextureNumber(0);
+//		this.setTextureNumber(0);
 		this.setIsTrap(isTrap);
 		this.setIsCanStepOn(true);
 	}
@@ -39,8 +39,8 @@ public class BrickFloor extends Floor {
 	 * Standard object settings regardless of the constructor
 	 */
 	private void defaultProperties() {
-		this.setTextureProperties(TEXTURE_PROPERTIES);
-		this.setSize(16, 16);
+//		this.setTextureProperties(TEXTURE_PROPERTIES);
+		this.setSize(SIZE_16x16);
 		
 		this.body = new Body();
 		this.body.setType(BodyType.StaticBody);

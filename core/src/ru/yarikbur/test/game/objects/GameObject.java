@@ -168,7 +168,7 @@ public class GameObject {
 	 * Destroys texture and fixture
 	 */
 	public void dispose() {
-		texture.dispose();
+//		texture.dispose();
 		this.body.dispose();
 	}
 	
@@ -178,6 +178,7 @@ public class GameObject {
 	public class Body {
 		BodyDef bodyDef = new BodyDef();
 		FixtureDef fixtureDef = new FixtureDef();
+		com.badlogic.gdx.physics.box2d.Body worldBody;
 		
 		/**
 		 * Set the physical type of the current object
@@ -267,6 +268,22 @@ public class GameObject {
 		public void dispose() {
 			fixtureDef.shape.dispose();
 		}
+		
+		/**
+		 * Sets Body of the current physics object
+		 * @param worldBody - Box2D Body
+		 */
+		public void setWorldBody(com.badlogic.gdx.physics.box2d.Body worldBody) {
+			this.worldBody = worldBody;
+		}
+		
+		/**
+		 * Returns Body of the current physics object
+		 * @return Box2D Body
+		 */
+		public com.badlogic.gdx.physics.box2d.Body getBody() {
+			return worldBody;
+		}
 	}
 	
 	/**
@@ -283,5 +300,21 @@ public class GameObject {
 	 */
 	public FixtureDef getFixtureDef() {
 		return this.body.getFixtureDef();
+	}
+	
+	/**
+	 * Sets Body of the current physics object
+	 * @param worldBody - Box2D Body
+	 */
+	public void setWorldBody(com.badlogic.gdx.physics.box2d.Body worldBody) {
+		this.body.worldBody = worldBody;
+	}
+	
+	/**
+	 * Returns Body of the current physics object
+	 * @return Box2D Body
+	 */
+	public com.badlogic.gdx.physics.box2d.Body getBody() {
+		return this.body.worldBody;
 	}
 }

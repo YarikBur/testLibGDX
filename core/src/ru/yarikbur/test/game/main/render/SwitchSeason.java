@@ -9,5 +9,6 @@ public class SwitchSeason {
 		maps.setSeasons(seasons);
 		
 		renderer.initMap(maps, seasons);
+		renderer.initObjectsOnMap();
 	}
 }

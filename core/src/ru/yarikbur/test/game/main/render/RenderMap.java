@@ -32,13 +32,13 @@ public class RenderMap {
 		this.spriteBatch = spriteBatch;
 		this.world = world;
 		this.cam = cam;
-		
-		objects = new ArrayList<GameObject>();
 	}
 	
 	public void initMap(Maps maps, Maps.Seasons seasons) {
 		map = new LoaderTmx().load(maps.getPath(), seasons);
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
+		
+		objects = new ArrayList<GameObject>();
 	}
 	
 	private void initBox2DObjects(GameObject gameObject, int x, int y, int width, int height) {
@@ -46,6 +46,7 @@ public class RenderMap {
 		
 		Body body = world.createBody(gameObject.getBodyDef());
 		body.createFixture(gameObject.getFixtureDef());
+		gameObject.setWorldBody(body);
 		
 		objects.add(gameObject);
 	}
@@ -111,6 +112,7 @@ public class RenderMap {
 		mapRenderer.dispose();
 		
 		for (GameObject obj : objects) {
+			world.destroyBody(obj.getBody());
 			obj.dispose();
 		}
 	}

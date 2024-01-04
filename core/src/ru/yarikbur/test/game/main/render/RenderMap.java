@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import ru.yarikbur.test.game.main.map.Maps;
 import ru.yarikbur.test.game.objects.GameObject;
 import ru.yarikbur.test.game.objects.floor.BrickFloor;
+import ru.yarikbur.test.game.objects.wall.Rock;
 import ru.yarikbur.test.game.objects.wall.Tree;
 import ru.yarikbur.test.utils.graphic.LoaderTmx;
 
@@ -90,12 +91,20 @@ public class RenderMap {
 						initBox2DObjects(new BrickFloor(false, isCanStepOn), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
-			} else if (mapTileLayer.getName().indexOf("Tree") == 0) {
+			} else if (mapTileLayer.getName().indexOf("Trees") == 0) {
 				parseCells((cell, x, y) -> {
 					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
 					
 					if (!isCanStepOn) {
 						initBox2DObjects(new Tree(), x, y, tileWidth, tileHeigth);
+					}
+				}, mapTileLayer);
+			} else if (mapTileLayer.getName().indexOf("Rocks") == 0) {
+				parseCells((cell, x, y) -> {
+					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
+					
+					if (!isCanStepOn) {
+						initBox2DObjects(new Rock(), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			}

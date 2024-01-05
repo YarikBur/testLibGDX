@@ -1,18 +1,14 @@
 package ru.yarikbur.test.game.main.render;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 
+import ru.yarikbur.test.game.main.map.EngineWorld;
 import ru.yarikbur.test.game.main.map.Maps;
-import ru.yarikbur.test.game.objects.GameObject;
 import ru.yarikbur.test.game.objects.floor.BrickFloor;
 import ru.yarikbur.test.game.objects.wall.Rock;
 import ru.yarikbur.test.game.objects.wall.Tree;
@@ -21,15 +17,13 @@ import ru.yarikbur.test.utils.graphic.LoaderTmx;
 public class RenderMap {
 	@SuppressWarnings("unused")
 	private SpriteBatch spriteBatch;
-	private World world;
+	private EngineWorld world;
 	private OrthographicCamera cam;
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	
-	private ArrayList<GameObject> objects;
-	
-	public RenderMap(SpriteBatch spriteBatch, World world, OrthographicCamera cam) {
+	public RenderMap(SpriteBatch spriteBatch, EngineWorld world, OrthographicCamera cam) {
 		this.spriteBatch = spriteBatch;
 		this.world = world;
 		this.cam = cam;
@@ -38,19 +32,17 @@ public class RenderMap {
 	public void initMap(Maps maps, Maps.Seasons seasons) {
 		map = new LoaderTmx().load(maps.getPath(), seasons);
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
-		
-		objects = new ArrayList<GameObject>();
 	}
 	
-	private void initBox2DObjects(GameObject gameObject, int x, int y, int width, int height) {
-		gameObject.setPosition(x * width, y * height);
-		
-		Body body = world.createBody(gameObject.getBodyDef());
-		body.createFixture(gameObject.getFixtureDef());
-		gameObject.setWorldBody(body);
-		
-		objects.add(gameObject);
-	}
+//	private void initBox2DObjects(GameObject gameObject, int x, int y, int width, int height) {
+//		gameObject.setPosition(x * width, y * height);
+//		
+//		Body body = world.createBody(gameObject.getBodyDef());
+//		body.createFixture(gameObject.getFixtureDef());
+//		gameObject.setWorldBody(body);
+//		
+//		objects.add(gameObject);
+//	}
 	
 	@FunctionalInterface
 	private interface Parse {
@@ -80,15 +72,14 @@ public class RenderMap {
 		
 		for (int i = 0; i < map.getLayers().size(); i++) {
 			mapTileLayer = (TiledMapTileLayer) map.getLayers().get(i);
-			int tileWidth = mapTileLayer.getTileWidth();
-			int tileHeigth = mapTileLayer.getTileHeight();
-			
+
 			if (mapTileLayer.getName().indexOf("Layer") == 0) {
 				parseCells((cell, x, y) -> {
 					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
 					
 					if (!isCanStepOn) {
-						initBox2DObjects(new BrickFloor(false, isCanStepOn), x, y, tileWidth, tileHeigth);
+						world.addObject(new BrickFloor(false, isCanStepOn), x, y);
+//						initBox2DObjects(new BrickFloor(false, isCanStepOn), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			} else if (mapTileLayer.getName().indexOf("Trees") == 0) {
@@ -96,7 +87,8 @@ public class RenderMap {
 					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
 					
 					if (!isCanStepOn) {
-						initBox2DObjects(new Tree(), x, y, tileWidth, tileHeigth);
+						world.addObject(new Tree(), x, y);
+//						initBox2DObjects(new Tree(), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			} else if (mapTileLayer.getName().indexOf("Rocks") == 0) {
@@ -104,7 +96,8 @@ public class RenderMap {
 					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
 					
 					if (!isCanStepOn) {
-						initBox2DObjects(new Rock(), x, y, tileWidth, tileHeigth);
+						world.addObject(new Rock(), x, y);
+//						initBox2DObjects(new Rock(), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			}
@@ -119,10 +112,6 @@ public class RenderMap {
 	public void dispose() {
 		map.dispose();
 		mapRenderer.dispose();
-		
-		for (GameObject obj : objects) {
-			world.destroyBody(obj.getBody());
-			obj.dispose();
-		}
+		world.clearAllObjects();
 	}
 }

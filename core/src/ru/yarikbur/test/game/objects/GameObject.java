@@ -18,6 +18,7 @@ import ru.yarikbur.test.utils.graphic.TilesetParser;
  */
 public class GameObject {
 	public static final int[] SIZE_16x16 = new int[] {16, 16};
+	public static final int[] SIZE_32x32 = new int[] {32, 32};
 	
 	protected Body body;
 	protected Texture texture;
@@ -168,7 +169,7 @@ public class GameObject {
 	 * Destroys texture and fixture
 	 */
 	public void dispose() {
-//		texture.dispose();
+		if (texture != null) texture.dispose();
 		this.body.dispose();
 	}
 	

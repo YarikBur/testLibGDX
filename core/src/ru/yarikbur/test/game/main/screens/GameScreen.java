@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.yarikbur.test.game.main.MainGameWrapper;
@@ -12,6 +13,7 @@ import ru.yarikbur.test.game.main.map.EngineWorld;
 import ru.yarikbur.test.game.main.map.Maps;
 import ru.yarikbur.test.game.main.render.RenderMap;
 import ru.yarikbur.test.game.main.render.SwitchSeason;
+import ru.yarikbur.test.game.objects.entity.Player;
 
 public class GameScreen implements Screen {
 	private static final float SPEED_CAM = 3f;
@@ -21,20 +23,33 @@ public class GameScreen implements Screen {
 	EngineWorld engineWorld;
 	OrthographicCamera cam;
 	RenderMap render;
+	Player player;
 	
 	private Maps currentMap;
+	
+	private void initPlayer() {
+		player = new Player();
+		engineWorld.setPlayer(player);
+		player.setPosition(25*16-8, 17*16-8);
+		Body body = engineWorld.getWorld().createBody(player.getBodyDef());
+		body.createFixture(player.getFixtureDef());
+		player.setWorldBody(body);
+	}
 	
 	public GameScreen(MainGameWrapper wrapper) {
 		this.wrapper = wrapper;
 		
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, wrapper.getCameraSize()[0], wrapper.getCameraSize()[1]);
-		cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 		
 		engineWorld = new EngineWorld();
-		render = new RenderMap(wrapper.batch, engineWorld.getWorld(), cam);
+		render = new RenderMap(wrapper.batch, engineWorld, cam);
+		
+		initPlayer();
 		
 		currentMap = Maps.TestMap;
+		
+		cam.position.set(player.getPosition()[0]+player.getSize()[0]/2, player.getPosition()[1]+player.getSize()[1]/2, 0);
 	}
 
 	@Override
@@ -53,6 +68,8 @@ public class GameScreen implements Screen {
 		wrapper.batch.begin();
 		
 		render.renderMap();
+		
+		player.renderObject(wrapper.batch);
 		
 		wrapper.batch.end();
 		
@@ -113,5 +130,5 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		render.dispose();
 	}
-
+	
 }

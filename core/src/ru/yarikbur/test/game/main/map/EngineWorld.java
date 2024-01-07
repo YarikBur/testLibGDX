@@ -16,7 +16,7 @@ import ru.yarikbur.test.game.objects.entity.Player;
  * The class responsible for setting up the Box2D world
  */
 public class EngineWorld {
-	private static final boolean DO_SLEEP = true;
+	private static final boolean DO_SLEEP = false;
 	private static final boolean WORLD_DEBUG = true;
 	
 	private static World world = null;
@@ -35,13 +35,24 @@ public class EngineWorld {
 		Box2D.init();
 	}
 	
+	@FunctionalInterface
+	public interface UpdateWorld {
+		public void update(World world);
+	}
+	
+	public void update(UpdateWorld world) {
+		EngineWorld.world.step(1/60f, 6, 2);
+		world.update(EngineWorld.world);
+	}
+	
 	/**
 	 * Renders object shapes if debug mode is enabled
 	 * @param matrix4 Camera combine
 	 */
 	public void render(Matrix4 matrix4) {
-		if (debugRenderer != null)
+		if (debugRenderer != null) {
 			debugRenderer.render(world, matrix4);
+		}
 	}
 	
 	/**

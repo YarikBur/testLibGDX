@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -16,8 +17,6 @@ import ru.yarikbur.test.game.main.render.SwitchSeason;
 import ru.yarikbur.test.game.objects.entity.Player;
 
 public class GameScreen implements Screen {
-	private static final float SPEED_CAM = 3f;
-	
 	final MainGameWrapper wrapper;
 	
 	EngineWorld engineWorld;
@@ -48,8 +47,6 @@ public class GameScreen implements Screen {
 		initPlayer();
 		
 		currentMap = Maps.TestMap;
-		
-		cam.position.set(player.getPosition()[0]+player.getSize()[0]/2, player.getPosition()[1]+player.getSize()[1]/2, 0);
 	}
 
 	@Override
@@ -57,13 +54,17 @@ public class GameScreen implements Screen {
 		render.initMap(currentMap, currentMap.getSeasons());
 		render.initObjectsOnMap();
 	}
-
+	
+	public void updateWorld() {
+		
+	}
+	
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(MainGameWrapper.BACKGROUND_COLOR);
+		cam.position.set(player.getPosition()[0]+player.getSize()[0]/2, player.getPosition()[1]+player.getSize()[1]/2, 0);
 		cam.update();
 		wrapper.batch.setProjectionMatrix(cam.combined);
-		
 		
 		wrapper.batch.begin();
 		
@@ -73,20 +74,18 @@ public class GameScreen implements Screen {
 		
 		wrapper.batch.end();
 		
+		engineWorld.update((world) -> {
+			Vector2 playerSpeed = new Vector2();
+			playerSpeed = Player.direction;
+			playerSpeed = playerSpeed.scl((delta / 2) * Player.MAX_SPEED)
+					.scl(Player.WEIGHT)
+					.clamp(0, Player.WEIGHT + Player.MAX_SPEED);
+			
+			System.out.println("X direction: " + Player.direction.x + "X speed: " + playerSpeed.x);
+			
+			player.getBody().applyForce(playerSpeed, player.getVectorPosition(), true);
+		});
 		engineWorld.render(cam.combined);
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.translate(-SPEED_CAM, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			cam.translate(0, -SPEED_CAM);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.translate(SPEED_CAM, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.translate(0, SPEED_CAM);
-		}
 		
 		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
 			SwitchSeason.switchSeason(render, currentMap, Maps.Seasons.Winter);

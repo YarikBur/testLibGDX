@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.yarikbur.test.game.main.screens.GameScreen;
+import ru.yarikbur.test.utils.control.Keyboard;
 import ru.yarikbur.test.utils.graphic.NewColor;
 
 /**
@@ -16,10 +17,14 @@ public class MainGameWrapper extends Game {
 	public static final Color BACKGROUND_COLOR = NewColor.getHSVColor(247f, .36f, .17f);
 	
 	public SpriteBatch batch;
+	public Keyboard keyboard;
 	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		keyboard = new Keyboard();
+		
+		Gdx.input.setInputProcessor(keyboard);
 		
 		this.setScreen(new GameScreen(this));
 	}

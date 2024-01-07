@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -86,6 +87,11 @@ public class GameObject {
 		this.y = value;
 	}
 	
+	public void setPosition(Vector2 vector) {
+		setX((int) vector.x - getSize()[0] / 2);
+		setY((int) vector.y - getSize()[1] / 2);
+	}
+	
 	/**
 	 * Sets position for a given object
 	 * @param x - Position x (int)
@@ -104,6 +110,10 @@ public class GameObject {
 	 */
 	public int[] getPosition() {
 		return new int[] {x, y};
+	}
+	
+	public Vector2 getVectorPosition() {
+		return new Vector2(x, y);
 	}
 	
 	/**
@@ -171,6 +181,11 @@ public class GameObject {
 	public void dispose() {
 		if (texture != null) texture.dispose();
 		this.body.dispose();
+	}
+	
+	public float getDensityFromWeight(float weight) {
+		float V = this.getSize()[0] * this.getSize()[1];
+		return V / weight;
 	}
 	
 	/**

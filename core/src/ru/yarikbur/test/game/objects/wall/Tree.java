@@ -8,5 +8,7 @@ public class Tree extends Wall {
 		this.body = new Body();
 		this.body.setType(BodyType.StaticBody);
 		this.body.setFixture(this.body.boxShape(this.getSize()[0], this.getSize()[1]));
+		
+		this.color = BORDER;
 	}
 }

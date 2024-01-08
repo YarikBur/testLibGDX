@@ -7,14 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import ru.yarikbur.test.game.objects.entity.Player;
 
 public class Keyboard implements InputProcessor {
-	private static final Vector2 PLAYER_X = new Vector2(1, 0);
-	private static final Vector2 PLAYER_Y = new Vector2(0, 1);
+	private static final Vector2 PLAYER_X = new Vector2(Player.START_SPEED, 0);
+	private static final Vector2 PLAYER_Y = new Vector2(0, Player.START_SPEED);
 	private Vector2 playerVector = new Vector2();
+	private int time = 0;
 	
 	public Vector2 getPlayerVector() {
 		return playerVector;
 	}
-
+	
+	public int getTime() {
+		return time;
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Input.Keys.D) Player.direction.add(PLAYER_X);

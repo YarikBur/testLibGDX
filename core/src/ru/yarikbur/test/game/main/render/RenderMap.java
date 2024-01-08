@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import ru.yarikbur.test.game.main.map.EngineWorld;
 import ru.yarikbur.test.game.main.map.Maps;
-import ru.yarikbur.test.game.objects.floor.BrickFloor;
+import ru.yarikbur.test.game.objects.floor.LayerBorder;
 import ru.yarikbur.test.game.objects.wall.Rock;
 import ru.yarikbur.test.game.objects.wall.Tree;
 import ru.yarikbur.test.utils.graphic.LoaderTmx;
@@ -78,8 +78,7 @@ public class RenderMap {
 					boolean isCanStepOn = getBooleanProperties(cell, "isCanStepOn");
 					
 					if (!isCanStepOn) {
-						world.addObject(new BrickFloor(false, isCanStepOn), x, y);
-//						initBox2DObjects(new BrickFloor(false, isCanStepOn), x, y, tileWidth, tileHeigth);
+						world.addObject(new LayerBorder(false, isCanStepOn), x, y);
 					}
 				}, mapTileLayer);
 			} else if (mapTileLayer.getName().indexOf("Trees") == 0) {
@@ -88,7 +87,6 @@ public class RenderMap {
 					
 					if (!isCanStepOn) {
 						world.addObject(new Tree(), x, y);
-//						initBox2DObjects(new Tree(), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			} else if (mapTileLayer.getName().indexOf("Rocks") == 0) {
@@ -97,7 +95,6 @@ public class RenderMap {
 					
 					if (!isCanStepOn) {
 						world.addObject(new Rock(), x, y);
-//						initBox2DObjects(new Rock(), x, y, tileWidth, tileHeigth);
 					}
 				}, mapTileLayer);
 			}

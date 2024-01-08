@@ -2,6 +2,8 @@ package ru.yarikbur.test.game.main.map;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ru.yarikbur.test.game.objects.GameObject;
 import ru.yarikbur.test.game.objects.entity.Player;
+import ru.yarikbur.test.utils.control.GameContactListener;
 
 /**
  * The class responsible for setting up the Box2D world
@@ -24,6 +27,8 @@ public class EngineWorld {
 	private static ArrayList<GameObject> worldObjects = new ArrayList<GameObject>();
 	private static Player player;
 	
+	private ShapeRenderer shapeRenderer;
+	
 	/**
 	 * Initialization Box2D world
 	 */
@@ -33,6 +38,9 @@ public class EngineWorld {
 		if (debugRenderer == null && WORLD_DEBUG)
 			debugRenderer = new Box2DDebugRenderer();
 		Box2D.init();
+		
+		shapeRenderer = new ShapeRenderer();
+		world.setContactListener(new GameContactListener());
 	}
 	
 	@FunctionalInterface
@@ -51,7 +59,19 @@ public class EngineWorld {
 	 */
 	public void render(Matrix4 matrix4) {
 		if (debugRenderer != null) {
-			debugRenderer.render(world, matrix4);
+//			debugRenderer.render(world, matrix4);
+			
+			shapeRenderer.setProjectionMatrix(matrix4);
+			shapeRenderer.begin(ShapeType.Line);
+			for (GameObject obj : worldObjects) {
+				shapeRenderer.setColor(obj.getColor());
+				shapeRenderer.rect(obj.getPosition()[0], obj.getPosition()[1], obj.getSize()[0], obj.getSize()[1]);
+			}
+			
+			shapeRenderer.setColor(player.getColor());
+			shapeRenderer.rect(player.getPosition()[0]+8, player.getPosition()[1], player.getSize()[0], player.getSize()[1]);
+			
+			shapeRenderer.end();
 		}
 	}
 	
@@ -85,6 +105,8 @@ public class EngineWorld {
 		Body body = world.createBody(gameObject.getBodyDef());
 		body.createFixture(gameObject.getFixtureDef());
 		gameObject.setWorldBody(body);
+		
+		gameObject.setUserData(0, gameObject);
 		
 		worldObjects.add(gameObject);
 	}

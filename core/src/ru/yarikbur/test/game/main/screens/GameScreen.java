@@ -33,6 +33,8 @@ public class GameScreen implements Screen {
 		Body body = engineWorld.getWorld().createBody(player.getBodyDef());
 		body.createFixture(player.getFixtureDef());
 		player.setWorldBody(body);
+		
+		player.setUserData(0, player);
 	}
 	
 	public GameScreen(MainGameWrapper wrapper) {
@@ -47,6 +49,8 @@ public class GameScreen implements Screen {
 		initPlayer();
 		
 		currentMap = Maps.TestMap;
+		
+		
 	}
 
 	@Override
@@ -58,6 +62,8 @@ public class GameScreen implements Screen {
 	public void updateWorld() {
 		
 	}
+	
+	float time = 0;
 	
 	@Override
 	public void render(float delta) {
@@ -75,15 +81,14 @@ public class GameScreen implements Screen {
 		wrapper.batch.end();
 		
 		engineWorld.update((world) -> {
-			Vector2 playerSpeed = new Vector2();
-			playerSpeed = Player.direction;
-			playerSpeed = playerSpeed.scl((delta / 2) * Player.MAX_SPEED)
-					.scl(Player.WEIGHT)
-					.clamp(0, Player.WEIGHT + Player.MAX_SPEED);
+			Vector2 playerSpeed = new Vector2(Player.direction);
 			
-			System.out.println("X direction: " + Player.direction.x + "X speed: " + playerSpeed.x);
+			player.getBody().setLinearVelocity(playerSpeed);
 			
-			player.getBody().applyForce(playerSpeed, player.getVectorPosition(), true);
+			Vector2 playerPosition = new Vector2(player.getBody().getPosition());
+			playerPosition.x -= 8;
+			
+			player.setPosition(playerPosition);
 		});
 		engineWorld.render(cam.combined);
 		

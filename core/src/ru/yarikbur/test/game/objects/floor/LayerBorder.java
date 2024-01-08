@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 /**
  * Game object - floor made of bricks
  */
-public class BrickFloor extends Floor {
-	private static final Texture_Properties TEXTURE_PROPERTIES = Texture_Properties.BRICK;
+public class LayerBorder extends Floor {
+//	private static final Texture_Properties TEXTURE_PROPERTIES = Texture_Properties.BRICK;
 	
 	/**
 	 * Constructor a brick floor
@@ -14,7 +14,7 @@ public class BrickFloor extends Floor {
 	 * @param isCanStepOn - player is can step on this floor
 	 * @param textureID - texture number a 1D array
 	 */
-	public BrickFloor(boolean isTrap, boolean isCanStepOn, int textureID) {
+	public LayerBorder(boolean isTrap, boolean isCanStepOn, int textureID) {
 		this.defaultProperties();
 		
 		this.setTextureNumber(textureID);
@@ -27,7 +27,7 @@ public class BrickFloor extends Floor {
 	 * @param isTrap - this tile it's a trap or not
 	 * @param isCanStepOn - player is can step on this floor
 	 */
-	public BrickFloor(boolean isTrap, boolean isCanStepOn) {
+	public LayerBorder(boolean isTrap, boolean isCanStepOn) {
 		this.defaultProperties();
 		
 //		this.setTextureNumber(0);
@@ -45,5 +45,7 @@ public class BrickFloor extends Floor {
 		this.body = new Body();
 		this.body.setType(BodyType.StaticBody);
 		this.body.setFixture(this.body.boxShape(this.getSize()[0], this.getSize()[1]));
+		
+		this.color = BORDER;
 	}
 }

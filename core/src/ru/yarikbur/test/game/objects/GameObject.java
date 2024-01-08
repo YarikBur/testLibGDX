@@ -1,6 +1,7 @@
 package ru.yarikbur.test.game.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,9 +19,15 @@ import ru.yarikbur.test.utils.graphic.TilesetParser;
  * Basic parameters for all types of objects in the game
  */
 public class GameObject {
+	public static final Color DYNAMIC = Color.CORAL;
+	public static final Color BORDER = Color.RED;
+	public static final Color FLOOR = Color.GREEN;
+	public static final Color INTERACTION = Color.CYAN;
+	
 	public static final int[] SIZE_16x16 = new int[] {16, 16};
 	public static final int[] SIZE_32x32 = new int[] {32, 32};
 	
+	protected Color color;
 	protected Body body;
 	protected Texture texture;
 	protected TextureRegion[] textureRegion;
@@ -31,6 +38,10 @@ public class GameObject {
 	protected int y;
 	protected int width;
 	protected int height;
+	
+	public Color getColor() {
+		return this.color;
+	}
 	
 	/**
 	 * Sets the texture for a given object
@@ -185,7 +196,7 @@ public class GameObject {
 	
 	public float getDensityFromWeight(float weight) {
 		float V = this.getSize()[0] * this.getSize()[1];
-		return V / weight;
+		return weight / V;
 	}
 	
 	/**
@@ -332,5 +343,9 @@ public class GameObject {
 	 */
 	public com.badlogic.gdx.physics.box2d.Body getBody() {
 		return this.body.worldBody;
+	}
+	
+	public void setUserData(int index, Object userData) {
+		this.body.getBody().getFixtureList().get(index).setUserData(userData);
 	}
 }

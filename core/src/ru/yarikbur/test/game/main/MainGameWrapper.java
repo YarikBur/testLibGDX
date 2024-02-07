@@ -7,7 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.yarikbur.test.game.main.screens.GameScreen;
 import ru.yarikbur.test.utils.control.Keyboard;
+import ru.yarikbur.test.utils.database.Database;
+import ru.yarikbur.test.utils.database.Queryes;
+import ru.yarikbur.test.utils.files.Properties;
 import ru.yarikbur.test.utils.graphic.NewColor;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * A shell that allows you to transfer and store shared data between switchable screens
@@ -18,9 +24,15 @@ public class MainGameWrapper extends Game {
 	
 	public SpriteBatch batch;
 	public Keyboard keyboard;
+
+	private Database database_Game;
 	
 	@Override
 	public void create() {
+		initGameDatabase();
+
+		Queryes.updatePlayerOnline(database_Game,  "emili", true);
+
 		batch = new SpriteBatch();
 		keyboard = new Keyboard();
 		
@@ -28,13 +40,21 @@ public class MainGameWrapper extends Game {
 		
 		this.setScreen(new GameScreen(this));
 	}
-	
+
+	private void initGameDatabase() {
+		Properties properties = new Properties("props/database.properties");
+
+		database_Game = new Database(properties.getProperty("url"),
+				properties.getProperty("username"), properties.getProperty("password"));
+	}
+
 	public void render() {
 		super.render();
 	}
 	
 	public void dispose() {
 		batch.dispose();
+		Queryes.updatePlayerOnline(database_Game, "emili", false);
 	}
 	
 	/**
@@ -71,5 +91,12 @@ public class MainGameWrapper extends Game {
 		
 		return new int[] {w, h};
 	}
-	
+
+	/**
+	 * Returns the current game database
+	 * @return Database
+	 */
+	public Database getDatabase_Game() {
+		return database_Game;
+	}
 }

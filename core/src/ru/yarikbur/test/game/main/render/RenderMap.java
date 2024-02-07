@@ -22,28 +22,32 @@ public class RenderMap {
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
-	
+
+	/**
+	 * Initialization method for class RenderMap
+	 * @param spriteBatch - SpriteBatch
+	 * @param world - EngineWorld
+	 * @param cam - OrthographicCamera
+	 */
 	public RenderMap(SpriteBatch spriteBatch, EngineWorld world, OrthographicCamera cam) {
 		this.spriteBatch = spriteBatch;
 		this.world = world;
 		this.cam = cam;
 	}
-	
+
+	/**
+	 * Initialization map
+	 * @param maps - Enum maps
+	 * @param seasons - Texture weather seasons
+	 */
 	public void initMap(Maps maps, Maps.Seasons seasons) {
 		map = new LoaderTmx().load(maps.getPath(), seasons);
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 	}
-	
-//	private void initBox2DObjects(GameObject gameObject, int x, int y, int width, int height) {
-//		gameObject.setPosition(x * width, y * height);
-//		
-//		Body body = world.createBody(gameObject.getBodyDef());
-//		body.createFixture(gameObject.getFixtureDef());
-//		gameObject.setWorldBody(body);
-//		
-//		objects.add(gameObject);
-//	}
-	
+
+	/**
+	 *
+	 */
 	@FunctionalInterface
 	private interface Parse {
 		void execute(Cell cell, int x, int y);
@@ -58,7 +62,7 @@ public class RenderMap {
 					cell = mapTileLayer.getCell(x, y);
 					
 					method.execute(cell, x, y);
-				} catch (NullPointerException e) { }
+				} catch (NullPointerException ignored) { }
 			}
 		}
 	}

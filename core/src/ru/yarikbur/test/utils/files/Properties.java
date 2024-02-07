@@ -8,6 +8,10 @@ import java.io.InputStream;
 public class Properties {
 	private final java.util.Properties properties;
 
+	/**
+	 * Initialization properties file
+	 * @param file_path Internal path to properties file
+	 */
 	public Properties(String file_path) {
 		properties = new java.util.Properties();
 
@@ -18,6 +22,11 @@ public class Properties {
 		}
 	}
 
+	/**
+	 * Returns the value from the properties file by key
+	 * @param key Required Value Key
+	 * @return String
+	 */
 	public String getProperty(String key) {
 		return this.properties.getProperty(key);
 	}

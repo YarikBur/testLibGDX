@@ -6,24 +6,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.yarikbur.test.game.main.screens.GameScreen;
+import ru.yarikbur.test.game.main.screens.Menu;
 import ru.yarikbur.test.utils.control.Keyboard;
 import ru.yarikbur.test.utils.database.Database;
-import ru.yarikbur.test.utils.database.Queryes;
+import ru.yarikbur.test.utils.database.Queries;
 import ru.yarikbur.test.utils.files.Properties;
 import ru.yarikbur.test.utils.graphic.NewColor;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A shell that allows you to transfer and store shared data between switchable screens
  */
 public class MainGameWrapper extends Game {
-	public static final int VIEWPORT_CONTST = 640;
+	public static final int VIEWPORT_CONST = 640;
 	public static final Color BACKGROUND_COLOR = NewColor.getHSVColor(247f, .36f, .17f);
 	
 	public SpriteBatch batch;
-	public Keyboard keyboard;
+
 
 	private Database database_Game;
 	
@@ -31,14 +33,9 @@ public class MainGameWrapper extends Game {
 	public void create() {
 		initGameDatabase();
 
-		Queryes.updatePlayerOnline(database_Game,  "emili", true);
-
 		batch = new SpriteBatch();
-		keyboard = new Keyboard();
-		
-		Gdx.input.setInputProcessor(keyboard);
-		
-		this.setScreen(new GameScreen(this));
+
+		this.setScreen(new Menu(this));
 	}
 
 	private void initGameDatabase() {
@@ -54,7 +51,6 @@ public class MainGameWrapper extends Game {
 	
 	public void dispose() {
 		batch.dispose();
-		Queryes.updatePlayerOnline(database_Game, "emili", false);
 	}
 	
 	/**
@@ -86,8 +82,8 @@ public class MainGameWrapper extends Game {
 	 * @return Integer[CONSTANT, CONSTANT * Height / Width]
 	 */
 	public int[] getCameraSize() {
-		int w = VIEWPORT_CONTST;
-		int h = VIEWPORT_CONTST * this.getWindowHeight() / w;
+		int w = VIEWPORT_CONST;
+		int h = VIEWPORT_CONST * this.getWindowHeight() / w;
 		
 		return new int[] {w, h};
 	}

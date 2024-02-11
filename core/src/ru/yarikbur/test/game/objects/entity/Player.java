@@ -10,6 +10,9 @@ public class Player extends GameObject {
 	public static final float MAX_SPEED = START_SPEED + 5;
 	public static Vector2 direction = new Vector2();
 	public static Vector2 speed = new Vector2();
+
+	private static String user, player_name;
+
 	
 	public static enum STATE {
 		CALM("Player/State.png"),
@@ -44,5 +47,10 @@ public class Player extends GameObject {
 		this.body.getFixtureDef().friction = .2f;
 		
 		this.color = DYNAMIC;
+	}
+
+	public void setPlayerName(String user, String player_name) {
+		Player.user = user;
+		Player.player_name = player_name;
 	}
 }

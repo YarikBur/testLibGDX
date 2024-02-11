@@ -48,4 +48,46 @@ public class Queries {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public static boolean checkPassword(Database database, String user, String password) {
+		ResultSet result = select(database, String.format(GET_USER_HASH, user));
+
+		try {
+			if (result.next())
+				if (result.getString("password").equals(Hash.sha512(password)))
+					return true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return false;
+	}
+
+	public static ArrayList<String> getPlayers(Database database, String user) {
+		ResultSet result = select(database, String.format(GET_USER_PLAYERS, user));
+		ArrayList<String> players = new ArrayList<String>();
+
+		try {
+			while (result.next()) {
+				players.add(result.getString("player"));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return players;
+	}
+
+	public static ResultSet select(Database database, String query) {
+		try {
+			database.openConnection();
+
+			ResultSet set = database.getStatement().executeQuery(query);
+
+			database.closeConnection();
+
+			return set;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

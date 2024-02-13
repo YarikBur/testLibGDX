@@ -1,5 +1,5 @@
 # LibGDX Java project
-<hr>
+
 
 This project was created to study and test the functions of the LibGDX engine.
 

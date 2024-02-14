@@ -49,6 +49,13 @@ public class Queries {
 		}
 	}
 
+	/**
+	 * Checks the entered username and password
+	 * @param database Wrapper database (ru.yarikbur.test.utils.database)
+	 * @param user User whose password needs to be checked
+	 * @param password Verification password
+	 * @return Returns "true" if the password and user match
+	 */
 	public static boolean checkPassword(Database database, String user, String password) {
 		ResultSet result = select(database, String.format(GET_USER_HASH, user));
 
@@ -62,6 +69,12 @@ public class Queries {
 		return false;
 	}
 
+	/**
+	 * Returns the user's character names
+	 * @param database Wrapper database (ru.yarikbur.test.utils.database)
+	 * @param user The name of the user from whom you want to take all the characters
+	 * @return Returns an ArrayList with character names
+	 */
 	public static ArrayList<String> getPlayers(Database database, String user) {
 		ResultSet result = select(database, String.format(GET_USER_PLAYERS, user));
 		ArrayList<String> players = new ArrayList<String>();
@@ -77,6 +90,11 @@ public class Queries {
 		return players;
 	}
 
+	/**
+	 * The method responsible for retrieving fields in a database table.s
+	 * @param database Wrapper database (ru.yarikbur.test.utils.database)
+	 * @param query Sting SQL query
+	 */
 	public static ResultSet select(Database database, String query) {
 		try {
 			database.openConnection();

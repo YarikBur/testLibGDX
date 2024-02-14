@@ -28,19 +28,6 @@ public class Database {
 		connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 	}
 
-	public ResultSet query(String query) throws SQLException {
-		openConnection();
-
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-
-		closeConnection();
-		statement.close();
-		resultSet.close();
-
-		return resultSet;
-	}
-
 	/**
 	 * @return Statement from selected database
 	 */
@@ -48,6 +35,9 @@ public class Database {
 		return connection.createStatement();
 	}
 
+	/**
+	 * @return Connection a database
+	 */
 	public Connection getConnection() {
 		return this.connection;
 	}

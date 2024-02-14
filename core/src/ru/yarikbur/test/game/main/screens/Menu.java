@@ -63,8 +63,12 @@ public class Menu implements Screen {
 				if (Queries.checkPassword(wrapper.getDatabase_Game(), login, pass)) {
 					ArrayList<String> players = Queries.getPlayers(wrapper.getDatabase_Game(), login);
 
+					wrapper.idUser = Queries.getUID(wrapper.getDatabase_Game(), Queries.GET_USER_ID, login);
+					wrapper.idPlayer = Queries.getUID(wrapper.getDatabase_Game(), Queries.GET_PLAYER_ID, players.get(0));
+
+
 					GameScreen gameScreen = new GameScreen(wrapper);
-					gameScreen.setUserData(login, players.get(0));
+					//gameScreen.setUserData(login, );
 
 					wrapper.setScreen(gameScreen);
 				} else {

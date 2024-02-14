@@ -114,6 +114,13 @@ public class GameObject {
 		
 		this.body.setPosition(getPosition());
 	}
+
+	public void setPosition(int[] position) {
+		setX(position[0]);
+		setY(position[1]);
+
+		this.body.setPosition(getPosition());
+	}
 	
 	/**
 	 * Returns the position of this object
@@ -122,6 +129,7 @@ public class GameObject {
 	public int[] getPosition() {
 		return new int[] {x, y};
 	}
+
 	
 	public Vector2 getVectorPosition() {
 		return new Vector2(x, y);

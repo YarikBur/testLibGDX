@@ -33,6 +33,9 @@ public class GameScreen implements Screen {
 	
 	private final Maps currentMap;
 
+	private float timeSecond = 0f;
+	private float timerPositionUpdate = 1f;
+
 
 	public void setUser(String user) {
 		this.user = user;
@@ -50,7 +53,7 @@ public class GameScreen implements Screen {
 	private void initPlayer() {
 		player = new Player();
 		engineWorld.setPlayer(player);
-		player.setPosition(25*16-8, 17*16-8);
+		player.setPosition(Queries.getLocationPlayer(wrapper.getDatabase_Game(), wrapper.idPlayer));
 		Body body = engineWorld.getWorld().createBody(player.getBodyDef());
 		body.createFixture(player.getFixtureDef());
 		player.setWorldBody(body);
@@ -77,7 +80,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		Queries.updatePlayerOnline(wrapper.getDatabase_Game(), player_name, true);
+		Queries.updatePlayerOnline(wrapper.getDatabase_Game(), wrapper.idPlayer, true);
 
 		render.initMap(currentMap, currentMap.getSeasons());
 		render.initObjectsOnMap();
@@ -100,8 +103,18 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+		timeSecond += delta;
+		if (timeSecond > timerPositionUpdate) {
+			timeSecond -= timerPositionUpdate;
+			Thread thread = new Thread(() -> {
+				Queries.updateLocationPlayer(wrapper.getDatabase_Game(), player.getPosition(), wrapper.idPlayer);
+			});
+			thread.start();
+		}
+
 		ScreenUtils.clear(MainGameWrapper.BACKGROUND_COLOR);
-		cam.position.set(player.getPosition()[0]+player.getSize()[0]/2f, player.getPosition()[1]+player.getSize()[1]/2f, 0);
+		cam.position.set(player.getPosition()[0]+player.getSize()[0]/2f,
+				player.getPosition()[1]+player.getSize()[1]/2f, 0);
 		cam.update();
 		wrapper.batch.setProjectionMatrix(cam.combined);
 
@@ -156,9 +169,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		Queries.updatePlayerOnline(wrapper.getDatabase_Game(), wrapper.idPlayer, false);
 		render.dispose();
-
-		Queries.updatePlayerOnline(wrapper.getDatabase_Game(), player_name, false);
 	}
 	
 }

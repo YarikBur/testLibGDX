@@ -26,8 +26,9 @@ public class MainGameWrapper extends Game {
 	
 	public SpriteBatch batch;
 
-
 	private Database database_Game;
+	public int idUser = -1;
+	public int idPlayer = -1;
 	
 	@Override
 	public void create() {

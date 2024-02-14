@@ -8,9 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Queries {
-	public static final String SET_ONLINE = "UPDATE `online` SET `online`='%d' WHERE `player`='%s';";
+	public static final String SET_ONLINE = "UPDATE `online` SET `online`='%d' WHERE `id_player`='%s';";
 	public static final String GET_USER_HASH = "SELECT `password` FROM `users` WHERE `login`='%s';";
 	public static final String GET_USER_PLAYERS = "SELECT `player` FROM `players` WHERE `user`='%s';";
+	public static final String GET_USER_ID = "SELECT `id` FROM `users` WHERE `login`='%s';";
+	public static final String GET_PLAYER_ID = "SELECT `id` FROM `players` WHERE `player`='%s';";
+	public static final String GET_PLAYER_LOCATION =
+			"SELECT `id_map`,`location` FROM `players_location` WHERE `id_player`='%s';";
+	public static final String SET_PLAYER_LOCATION =
+			"UPDATE `players_location` SET `location`='%s' WHERE `id_player`='%s';";
 
 	/**
 	 * Converted boolean variable to integer
@@ -25,11 +31,36 @@ public class Queries {
 	 * A method responsible for changing a player’s online status according to a template:
 	 * "UPDATE `online` SET `online`='%d' WHERE `player`='%s';"
 	 * @param database Wrapper database (ru.yarikbur.test.utils.database)
-	 * @param player A unique character name for the player.
+	 * @param player_id A unique character id.
 	 * @param online Settable online status
 	 */
-	public static void updatePlayerOnline(Database database, String player, boolean online) {
-		update(database, String.format(SET_ONLINE, boolToInt(online), player));
+	public static void updatePlayerOnline(Database database, int player_id, boolean online) {
+		update(database, String.format(SET_ONLINE, boolToInt(online), player_id));
+	}
+
+	public static void updateLocationPlayer(Database database, int[] position, int player_id) {
+		String loc = position[0] + ":" + position[1];
+		update(database, String.format(SET_PLAYER_LOCATION, loc, player_id));
+	}
+
+	public static int[] getLocationPlayer(Database database, int player_id) {
+		int[] location = new int[2];
+		ResultSet result = select(database, String.format(GET_PLAYER_LOCATION, player_id));
+
+		try {
+			if (result.next()) {
+				String[] loc = result.getString("location").split(":");
+
+				for (int i = 0; i < loc.length; i++) {
+					location[i] = Integer.parseInt(loc[i]);
+				}
+
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return location;
 	}
 
 	/**
@@ -67,6 +98,27 @@ public class Queries {
 			throw new RuntimeException(e);
 		}
 		return false;
+	}
+
+	/**
+	 *
+	 * @param database
+	 * @param query
+	 * @param str
+	 * @return
+	 */
+	public static int getUID(Database database, String query, String str) {
+		ResultSet result = select(database, String.format(query, str));
+
+		try {
+			if (result.next()) {
+				return result.getInt("id");
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return -1;
 	}
 
 	/**

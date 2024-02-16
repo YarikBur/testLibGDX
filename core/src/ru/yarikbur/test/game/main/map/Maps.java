@@ -3,7 +3,7 @@ package ru.yarikbur.test.game.main.map;
 public enum Maps {
 	TestMap("map/test_map.tmx", Seasons.Summer);
 	
-	private String path;
+	private final String path;
 	private Seasons seasons;
 	
 	Maps(String path, Seasons seasons) {
@@ -14,7 +14,7 @@ public enum Maps {
 	public String getPath() {
 		return this.path;
 	}
-	
+
 	public Seasons getSeasons() {
 		return this.seasons;
 	}

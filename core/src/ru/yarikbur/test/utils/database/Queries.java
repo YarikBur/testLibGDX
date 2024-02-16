@@ -1,16 +1,19 @@
 package ru.yarikbur.test.utils.database;
 
+import org.jetbrains.annotations.NotNull;
 import ru.yarikbur.test.utils.math.Hash;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Queries {
 	public static final String SET_ONLINE = "UPDATE `online` SET `online`='%d' WHERE `id_player`='%s';";
 	public static final String GET_USER_HASH = "SELECT `password` FROM `users` WHERE `login`='%s';";
 	public static final String GET_USER_PLAYERS = "SELECT `player` FROM `players` WHERE `user`='%s';";
+	public static final String GET_XML_MAP = "SELECT `map_xml` FROM `maps` WHERE `%s`='%s';";
 	public static final String GET_USER_ID = "SELECT `id` FROM `users` WHERE `login`='%s';";
 	public static final String GET_PLAYER_ID = "SELECT `id` FROM `players` WHERE `player`='%s';";
 	public static final String GET_PLAYER_LOCATION =
@@ -140,6 +143,22 @@ public class Queries {
 		}
 
 		return players;
+	}
+
+	public static @NotNull String getGetXmlMap(Database database, String where, String key) {
+		StringBuilder map = new StringBuilder();
+
+		ResultSet result = select(database, String.format(GET_XML_MAP, where, key));
+
+		try {
+			while (result.next()) {
+				map.append(result.getString("map_xml"));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return map.toString();
 	}
 
 	/**

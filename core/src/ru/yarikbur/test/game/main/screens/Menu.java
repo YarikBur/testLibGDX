@@ -68,7 +68,7 @@ public class Menu implements Screen {
 
 
 					GameScreen gameScreen = new GameScreen(wrapper);
-					//gameScreen.setUserData(login, );
+					gameScreen.setPlayerName(login, "test");
 
 					wrapper.setScreen(gameScreen);
 				} else {
